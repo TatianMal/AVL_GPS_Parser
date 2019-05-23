@@ -1,0 +1,15 @@
+{
+    "name": "user/hex_parser",
+    "description": "GPS parser FMB9 protocol",
+    "authors": [
+        {
+            "name": "Tatiana Maltseva",
+            "email": "tatianmaltseva@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "classmap": ["GPS_Parser.php"]
+    }
+
+}
