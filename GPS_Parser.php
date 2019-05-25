@@ -90,6 +90,18 @@ class GPS_Parser
         $this->cut_data($offset_to_next_data);
     }
 
+    protected function is_valid_gps_params($type_data, $value)
+    {
+        $value = (int) $value;
+
+        if ($type_data == "longitude")
+            return -90 <= $value && $value <= 90;
+        else if ($type_data == "latitude")
+            return -180 <= $value && $value <= 180;
+        else
+            return false;
+    }
+
     protected function convert_gps_data($type_data, $data)
     {
         $converted_data = "";
@@ -102,17 +114,21 @@ class GPS_Parser
             if(strlen($bytes_to_check_sign) < 8)
                 $sign_bit = 0;
             else
-            {
                 $sign_bit = substr($data, 0, 1);
-            }
 
             $unsign_converted_data = (float) $this->hex_to_dec($data);
             $unsign_converted_data /= 10000000;
 
             if($sign_bit == "1")
-                $converted_data = "-" . (string) $unsign_converted_data;
+                $converted_data = -1 * $unsign_converted_data;
             else
-                $converted_data = (string) $unsign_converted_data;
+                $converted_data = $unsign_converted_data;
+
+            if($this->is_valid_gps_params($type_data, $unsign_converted_data))
+                $converted_data = (string) $converted_data;
+            else
+                $converted_data = "incorrect value of " . $type_data;
+
         }
         else
         {
