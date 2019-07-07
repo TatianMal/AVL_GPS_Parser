@@ -188,8 +188,7 @@ class GPS_Parser
     {
         $gps_array = [];
 
-        foreach($this->gps_offsets as $name_gps => $offset)
-        {
+        foreach ($this->gps_offsets as $name_gps => $offset) {
             if ($name_gps == "angle") {
                 $gps_data = array_slice($gps_data, $offset);
                 continue;
